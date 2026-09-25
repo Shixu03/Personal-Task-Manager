@@ -1,7 +1,14 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TaskController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('tasks.index');
 });
+
+Route::resource('tasks', TaskController::class)
+    ->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
+
+Route::patch('/tasks/{task}/status', [TaskController::class, 'updateStatus'])
+    ->name('tasks.status');
